@@ -1,29 +1,34 @@
-import { React, useContext, useState} from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { React, useContext, useState } from "react";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../utils/firebase";
-import { UserContext } from "../UserContext";
-import { Navigate } from "react-router-dom";
+import { Divider } from "antd";
 import { toast } from "react-toastify";
+import { UserContext } from "../UserContext";
 import GoogleButton from "../components/GoogleButton";
+import { Navigate } from "react-router-dom";
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { userInfo, setUserInfo } = useContext(UserContext);
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const {userInfo,setUserInfo}=useContext(UserContext);
 
-  async function handleLogin(e) {
+  async function handleRegister(e) {
     e.preventDefault();
+    if(password!==confirmPassword){
+        toast.warn("Password not Matched");
+        return;
+    }
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      await createUserWithEmailAndPassword(auth, email, password);
       const user = auth.currentUser;
       setUserInfo({
         uid: user.uid,
         email: user.email,
       });
-
-      toast.success("User logged in");
+      toast.success("User registered Successfully");
     } catch (err) {
-      toast.error(err.code.split('/')[1]);
+      toast.error(err.code.split("/")[1]);
     }
   }
 
@@ -33,7 +38,7 @@ const LoginPage = () => {
     <>
       <div className="h-screen flex justify-center items-center bg-slate-700">
         <form
-          onSubmit={handleLogin}
+          onSubmit={handleRegister}
           className="flex flex-col justify-center items-center w-96 gap-2"
         >
           <input
@@ -47,19 +52,27 @@ const LoginPage = () => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
+            placeholder="Password (min 6 characters)"
+            className="w-full p-2 outline-none"
+          />
+          <input
+            type="password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            placeholder="Confirm Password"
             className="w-full p-2 outline-none"
           />
           <button type="submit" className="p-2 rounded-sm bg-blue-100 w-full">
-            Login
+            Sign Up
           </button>
 
-          <span className="">~~~~~~~~~~~~~Or~~~~~~~~~~~~~</span>
+          <Divider>Or</Divider>
           <GoogleButton/>
+          
         </form>
       </div>
     </>
   );
 };
 
-export default LoginPage;
+export default RegisterPage;

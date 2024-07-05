@@ -1,9 +1,26 @@
-import React from 'react'
+import React from "react";
+import { auth } from "../utils/firebase";
+import { UserContext } from "../UserContext";
+import { useContext, useEffect } from "react";
 
 const HomePage = () => {
-  return (
-    <div>HomePage</div>
-  )
-}
+  const { setUserInfo } = useContext(UserContext);
 
-export default HomePage
+  async function fun() {
+    try {
+      await auth.signOut();
+      console.log("User logged out");
+      setUserInfo(null);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  return (
+    <>
+      <div>HomePage</div>
+      <button onClick={fun}>Logout</button>
+    </>
+  );
+};
+
+export default HomePage;
