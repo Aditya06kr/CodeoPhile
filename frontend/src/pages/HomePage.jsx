@@ -1,7 +1,7 @@
 import React from "react";
 import { auth } from "../utils/firebase";
 import { UserContext } from "../UserContext";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 
 const HomePage = () => {
   const { setUserInfo } = useContext(UserContext);
@@ -16,10 +16,10 @@ const HomePage = () => {
     }
   }
   return (
-    <>
+    <div className="bg-color1">
       <div>HomePage</div>
       <button onClick={fun}>Logout</button>
-    </>
+    </div>
   );
 };
 

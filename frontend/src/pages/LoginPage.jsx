@@ -1,4 +1,4 @@
-import { React, useContext, useState} from "react";
+import { React, useContext, useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { UserContext } from "../UserContext";
@@ -19,19 +19,20 @@ const LoginPage = () => {
       setUserInfo({
         uid: user.uid,
         email: user.email,
+        CfId: null,
       });
 
       toast.success("User logged in");
     } catch (err) {
-      toast.error(err.code.split('/')[1]);
+      toast.error(err.code.split("/")[1]);
     }
   }
 
-  if (userInfo) return <Navigate to={"/"} />;
+  if (userInfo) return <Navigate to={"/dashboard"} />;
 
   return (
     <>
-      <div className="h-screen flex justify-center items-center bg-slate-700">
+      <div className="h-screen flex justify-center items-center bg-color1">
         <form
           onSubmit={handleLogin}
           className="flex flex-col justify-center items-center w-96 gap-2"
@@ -55,7 +56,7 @@ const LoginPage = () => {
           </button>
 
           <span className="">~~~~~~~~~~~~~Or~~~~~~~~~~~~~</span>
-          <GoogleButton/>
+          <GoogleButton />
         </form>
       </div>
     </>

@@ -1,4 +1,4 @@
-import { React, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { Divider } from "antd";
@@ -11,13 +11,13 @@ const RegisterPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const {userInfo,setUserInfo}=useContext(UserContext);
+  const { userInfo, setUserInfo } = useContext(UserContext);
 
   async function handleRegister(e) {
     e.preventDefault();
-    if(password!==confirmPassword){
-        toast.warn("Password not Matched");
-        return;
+    if (password !== confirmPassword) {
+      toast.warn("Password not Matched");
+      return;
     }
     try {
       await createUserWithEmailAndPassword(auth, email, password);
@@ -25,6 +25,7 @@ const RegisterPage = () => {
       setUserInfo({
         uid: user.uid,
         email: user.email,
+        CfId: null,
       });
       toast.success("User registered Successfully");
     } catch (err) {
@@ -32,11 +33,11 @@ const RegisterPage = () => {
     }
   }
 
-  if (userInfo) return <Navigate to={"/"} />;
+  if (userInfo) return <Navigate to={"/dashboard"} />;
 
   return (
     <>
-      <div className="h-screen flex justify-center items-center bg-slate-700">
+      <div className="h-screen flex justify-center items-center bg-color1">
         <form
           onSubmit={handleRegister}
           className="flex flex-col justify-center items-center w-96 gap-2"
@@ -67,8 +68,7 @@ const RegisterPage = () => {
           </button>
 
           <Divider>Or</Divider>
-          <GoogleButton/>
-          
+          <GoogleButton />
         </form>
       </div>
     </>
