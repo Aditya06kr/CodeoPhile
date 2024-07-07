@@ -12,6 +12,7 @@ const Layout = () => {
         setUserInfo({
           uid: user.uid,
           email: user.email,
+          CfId: null,
         });
       } else setUserInfo(null);
       console.log(user);
