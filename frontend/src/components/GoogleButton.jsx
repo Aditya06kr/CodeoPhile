@@ -15,6 +15,7 @@ const GoogleButton = () => {
         setUserInfo({
           uid: user.uid,
           email: user.email,
+          CfId: null,
         });
         toast.success("Registered Successfully");
       })
