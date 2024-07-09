@@ -8,15 +8,13 @@ const clanSchema = new mongoose.Schema(
       unique: true,
     },
     createdBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      type: String,
       required: true,
     },
     members: [
       {
         user_id: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "User",
+          type: String,
           required: true,
         },
       },
