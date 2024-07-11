@@ -90,7 +90,6 @@ const Dashboard = () => {
   }
 
   function createClan() {
-    // console.log(userInfo);
     try {
       axios
         .post("/codeforces/createclan", { clanName, createdBy: userInfo.CfId })
