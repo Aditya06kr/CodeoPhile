@@ -82,3 +82,14 @@ export const totalContests = async (req,res)=>{
     console.log(err);
   }
 }
+
+export const userStatus = async(req,res)=>{
+  const {username}=req.params;
+  try{
+    const response=await axios.get(`https://codeforces.com/api/user.status?handle=${username}`)
+    res.json(response.data);
+  }
+  catch(err){
+    console.log(err);
+  }
+};
