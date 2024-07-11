@@ -42,11 +42,43 @@ export const addMember = async (req, res) => {
   const { clanName, username } = req.body;
   console.log(clanName);
   try {
-    const clan = await Clan.findOne({name:clanName});
-    clan.members=[...clan.members,{user_id:username}];
-    const updatedClan = await Clan.save();
+    const clan = await Clan.findOne({ name: clanName });
+    clan.members = [...clan.members, { user_id: username }];
+    const updatedClan = await clan.save();
     console.log(updatedClan);
   } catch (err) {
     console.log(err);
   }
 };
+
+export const allMembers = async (req, res) => {
+  const {clanName}=req.params;
+  try{
+    const clan = await Clan.findOne({name:clanName});
+    if(!clan) throw new Error("Clan not Found");
+    const memberArray=clan.members.map(member => member.user_id);
+    res.json(memberArray);
+  }catch(err){
+    console.log(err);
+  }
+};
+
+export const standingsInfo = async (req,res)=>{
+  const {user}=req.params;
+  try{
+    const response=await axios.get(`https://codeforces.com/api/user.info?handles=${user}`)
+    res.json(response.data);
+  }catch(err){
+    console.log(err);
+  }
+};
+
+export const totalContests = async (req,res)=>{
+  const {user} = req.params;
+  try{
+    const response=await axios.get(`https://codeforces.com/api/user.rating?handle=${user}`)
+    res.json(response.data);
+  }catch(err){
+    console.log(err);
+  }
+}
