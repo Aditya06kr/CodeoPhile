@@ -27,7 +27,7 @@ function App() {
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/clan" element={<Clan />} />
-            <Route path="/profile" element={<ProfilePage/>} />
+            <Route path="/profile/:username" element={<ProfilePage/>} />
             <Route path="*" element={<PageNotFound />} />
           </Route>
         </Routes>
