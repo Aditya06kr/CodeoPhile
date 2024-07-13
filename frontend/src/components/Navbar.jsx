@@ -1,9 +1,19 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { UserContext } from '../UserContext'
+import { auth } from "../utils/firebase";
 
 const Navbar = () => {
-  const {userInfo}=useContext(UserContext);
+  const {userInfo,setUserInfo}=useContext(UserContext);
+  async function logout() {
+    try {
+      await auth.signOut();
+      console.log("User logged out");
+      setUserInfo(null);
+    } catch (err) {
+      console.log(err);
+    }
+  }
   return (
     <>
       <div className='flex justify-between p-4 bg-color1 text-white'>
@@ -13,7 +23,7 @@ const Navbar = () => {
             <Link to={"/"}>Home</Link>
             <Link to={"/dashboard"}>Dashboard</Link>
             {userInfo ? <Link to={`/profile/${userInfo.CfId}`}>Profile</Link> : <Link to={"/register"}>SignUp</Link>}
-            {userInfo ? <Link to={"/logout"}>Logout</Link> : <Link to={"/login"}>Login</Link>}
+            {userInfo ? <button onClick={logout}>Logout</button> : <Link to={"/login"}>Login</Link>}
           </div>
         </div>
       </div>
